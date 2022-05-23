@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Record():
+class Record:
     '''
     Class that represents a standard record in the database to unify matrix and ABM
     model output.

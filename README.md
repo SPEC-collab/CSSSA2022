@@ -11,6 +11,8 @@ Each execution of the model computes an ensemble for a given configuration with 
 
 * **type:** scheduled vs instantaneous
 * **interactions:** dyadic vs higher order
+* **number of interactants:** quantity of agents involved in a single interaction (pairwise = 2, higher order > 2)
+* **initial state:** proportion of agents selected at random with opinion = 1
 * **graph type:** regular 2D lattice, triangular 2D lattice, hexagonal 2D lattice, $K_n$, Watts-Strogatz, power law, hypercube, Erdos-Renyi, Barabasi-Albert
 * **number of agents (log_2):** an even value $k$ such that the number of agents is $2^k$, ranging from $k=6$ to $k=12$
 * **gamma**: collective magnetization threshold from 0 to 1
