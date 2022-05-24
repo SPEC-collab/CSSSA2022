@@ -12,7 +12,7 @@ class Record:
     Class that represents a standard record in the database to unify matrix and ABM
     model output.
     '''
-    uuid: str
+    uuid_exp: str
     ensemble_id: int
     step_id: int
     agent_id: int

@@ -7,12 +7,13 @@ import random
 import math
 
 from abc import ABC, abstractmethod
+from csssa2022.record import Record
 from csssa2022.database import Database
 
 
 class AbstractVoterModel(ABC):
     
-    def __init__(self, uuid, ensemble_id, type, interactions, interactants,
+    def __init__(self, uuid_exp, ensemble_id, type, interactions, interactants,
                  initial_state, network, n, gamma, max_steps, db: Database):
         # General elements
         self.running = True
@@ -20,7 +21,7 @@ class AbstractVoterModel(ABC):
         self.max_steps = max_steps
         
         # Model id
-        self.uuid = uuid
+        self.uuid_exp = uuid_exp
         
         # Voter specific attributes
         self.type = type
@@ -56,8 +57,16 @@ class AbstractVoterModel(ABC):
         pass
     
     @abstractmethod
-    def agent_to_record(self, i):
+    def get_opinion(self, i):
         pass
+    
+    def agent_to_record(self, i):
+        return Record(self.uuid_exp,
+                      self.ensemble_id,
+                      self.stepno,
+                      i,
+                      self.get_opinion(i),
+                      self.compute_f(i))
     
     def save(self, i):
         self.db.insert(self.agent_to_record(i))
