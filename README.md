@@ -28,5 +28,6 @@ Database fields:
 * **id:** a UUID determined uniquely by the combination of relevant parameters.
 * **ensemble_id:** number indicating the id of the current run per ensemble
 * **step_id:** identifier of the current agent
+* **agent_id:** identifier of the existing agent
 * **opinion:** 0/1 value indicating voting preference
 * **f_val:** current opinion fraction leading to vote switching
