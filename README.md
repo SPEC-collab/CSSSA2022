@@ -9,7 +9,7 @@ graphs and conditions. Our work departs from findings reported in
 
 Each execution of the model computes an ensemble for a given configuration with a parameter set and stores it in a SQLite database. Each simulation is given a UUID for indexing purposes, computed from its parameter set. Parameters are as follows:
 
-* **type:** scheduled vs instantaneous
+* **simulation type:** matrix vs ABM
 * **interactions:** dyadic vs higher order
 * **number of interactants:** quantity of agents involved in a single interaction (pairwise = 2, higher order > 2)
 * **initial state:** proportion of agents selected at random with opinion = 1

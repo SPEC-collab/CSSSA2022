@@ -9,6 +9,7 @@ import math
 from abc import ABC, abstractmethod
 from csssa2022.database import Database
 
+
 class AbstractVoterModel(ABC):
     
     def __init__(self, uuid, ensemble_id, type, interactions, interactants,
