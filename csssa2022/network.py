@@ -47,12 +47,7 @@ class NetworkEnsembleFactory:
     def make_ensemble(self, n, ensemble_size, nt: NetworkType):
         ensemble = {}
         
-        if self.variates[nt]:
-            limits = range(0, ensemble_size)
-        else:
-            limits = range(0, 1)
-        
-        for i in limits:
+        for i in range(0, ensemble_size):
             ensemble[i] = self.make_network(n, nt)
             
         return ensemble
