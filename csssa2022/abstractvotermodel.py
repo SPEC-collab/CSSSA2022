@@ -6,6 +6,7 @@
 import random
 import math
 
+from networkx import Graph
 from abc import ABC, abstractmethod
 from csssa2022.record import Record
 from csssa2022.database import Database
@@ -16,7 +17,7 @@ class AbstractVoterModel(ABC):
     __f_threshold = 0.5
     
     def __init__(self, uuid_exp, ensemble_id, type, interactions, interactants,
-                 initial_state, network, n, max_steps, db: Database):
+                 initial_state, network: Graph, n, max_steps, db: Database):
         # General elements
         self.running = True
         self.stepno = 0
@@ -66,7 +67,7 @@ class AbstractVoterModel(ABC):
                       self.compute_f(i))
     
     def save(self, i):
-        self.db.insert(self.agent_to_record(i))
+        self.db.insert_record(self.agent_to_record(i))
     
     def save_all(self):
         '''
@@ -75,3 +76,14 @@ class AbstractVoterModel(ABC):
         '''
         for i in self.agent_list:
             self.save(i)
+
+    def run(self):
+        while self.running:
+            # Perform the step
+            self.step()
+            
+            # Save all agent states
+            self.save_all()
+            
+             # Update the step counter
+            self.stepno += 1
