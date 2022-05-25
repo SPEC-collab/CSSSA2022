@@ -13,8 +13,10 @@ from csssa2022.database import Database
 
 class AbstractVoterModel(ABC):
     
+    __f_threshold = 0.5
+    
     def __init__(self, uuid_exp, ensemble_id, type, interactions, interactants,
-                 initial_state, network, n, gamma, max_steps, db: Database):
+                 initial_state, network, n, max_steps, db: Database):
         # General elements
         self.running = True
         self.stepno = 0
@@ -30,7 +32,6 @@ class AbstractVoterModel(ABC):
         self.initial_state = initial_state
         self.network = network
         self.n = n
-        self.gamma = gamma
         self.ensemble_id = ensemble_id
         
         # Create agents, separate them into initial states of yes/no
@@ -43,10 +44,6 @@ class AbstractVoterModel(ABC):
         
     def agents(self):
         return list(self.agent_list)
-    
-    @abstractmethod
-    def agent_at(self, i):
-        pass
         
     @abstractmethod
     def step(self):
