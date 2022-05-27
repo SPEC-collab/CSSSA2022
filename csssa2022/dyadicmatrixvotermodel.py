@@ -36,9 +36,9 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
             
             for i in self.agent_states.values():
                 if self.compute_f(i) > self.__f_threshold:
-                    new_states[i] = 1 # Change to the majority of the network
+                    new_states[i] = 1
                 else:
-                    new_states[i] = 0 # Retain the current value
+                    new_states[i] = 0
                     
             self.agent_states = new_states
             
