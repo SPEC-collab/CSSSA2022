@@ -38,17 +38,16 @@ Database fields:
 
 ### Current choices
 
-**Network:**
-* 2D grid (periodic)
-* Erdos-Renyi
-
-**Time steps:** 5000
+* **Network:** 2D grid (periodic)
+* **Time steps:** 5000
+* **Interactants:** 3
+* **Number of agents:** 256
+* **Ensemble size:** 50
 
 ### Contrasts
 
-* Determine whether ABM vs matrix implementations induce magnetization differences in the same graph
-* Determine whether different choices of graphs induce magnetization differences in the same model/across models
-* Determine whether magnetization differences occur depending on dyadic/higher-order interactions for each network
+1. Determine whether magnetization differences occur depending on dyadic/higher-order interactions for each network
+2. Determine whether ABM vs matrix implementations induce magnetization differences in the same graph
 
 ### Observables
 
@@ -58,4 +57,7 @@ Database fields:
 
 ## Future work
 
+* Determine the effect of system scaling vs Erdos-Renyi
 * Analysis of cluster formation during voting (connected components)
+* Determine whether different choices of graphs induce magnetization differences in the same model/across models
+* Introduce scheduler differences (random, priority)
