@@ -18,20 +18,28 @@ class ModelDriver:
     This class takes care of executing a model within an ensemble.
     '''
     
-    def run_model(ensemble_size, simulation: SimulationType, interaction: InteractionType,
-                  interactants, initial_state, network: NetworkType, n, max_steps, filename):
+    @staticmethod
+    def run_model(simulation: SimulationType, interaction: InteractionType, network: NetworkType,
+                  interactants, n, max_steps, ensemble_size, initial_state, filename):
         # Generate a unique uuid1 per experiment
         uuid_exp = uuid.uuid1()
         
+        # Report
+        print(f'Running: {uuid_exp} - {simulation.value}, {interaction.value}, {network.value} - S: {n} <M>: {initial_state}')
+                
         # Create a new database or open an existing one at the corresponding filename
         db = Database(filename)
         db.connect()
                 
-        # Generate an ensemble of networks 
-        network_ensemble = NetworkEnsembleFactory.make_ensemble(n, ensemble_size, network)
+        # Generate an ensemble of networks
+        nef = NetworkEnsembleFactory()
+        network_ensemble = nef.make_ensemble(n, ensemble_size, network)
         
         # Interate over the ensemble to compute and store each model
-        for i, net in network_ensemble:
+        for i, net in network_ensemble.items():
+            # Report start of ensemble point
+            print(f'Computing ensemble point {i}')
+            
             # Instantiate the right type of model
             model = None
             
@@ -55,4 +63,7 @@ class ModelDriver:
         
         # Close the database
         db.close()
+        
+        # Report finalization
+        print('Ensemble computed')
         

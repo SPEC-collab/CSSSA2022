@@ -21,7 +21,7 @@ network_opts_map = {
 }
 
 interaction_opts_map = {
-    'dy': InteractionType.DYADIC,
+    'dyn': InteractionType.DYADIC,
     'hord': InteractionType.HIGHER_ORDER
 }
 
@@ -30,9 +30,30 @@ simulation_opts_map = {
     'abm': SimulationType.ABM
 }
 
-
-def main():
-    pass
+@click.command()
+@click.argument('simulation', required=1, type=click.STRING)
+@click.argument('interaction', required=1, type=click.STRING)
+@click.argument('network', required=1, type=click.STRING)
+@click.argument('interactants', required=1, type=click.INT)
+@click.argument('n', required=1, type=click.INT)
+@click.argument('maxsteps', required=1, type=click.INT)
+@click.argument('ensemble', required=1, type=click.INT)
+@click.argument('initialmag', required=1, type=click.FLOAT)
+@click.argument('filename', required=1)
+def main(simulation, interaction, network, interactants, n, 
+         maxsteps, ensemble, initialmag, filename):
+    md = ModelDriver()
+    md.run_model(
+        simulation_opts_map[simulation],
+        interaction_opts_map[interaction],
+        network_opts_map[network],
+        interactants,
+        n,
+        maxsteps,
+        ensemble,
+        initialmag,
+        filename
+    )
 
 if __name__ == "__main__":
     main()

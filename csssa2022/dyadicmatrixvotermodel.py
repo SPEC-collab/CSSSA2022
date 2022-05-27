@@ -22,10 +22,10 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
         
         # Add agents depending on their initial opinion
         for i in self.initial_yes:
-            self.agent_store[i] = 1
+            self.agent_states[i] = 1
             
         for i in self.initial_no:
-            self.agent_store[i] = 0
+            self.agent_states[i] = 0
             
     def step(self):
         if self.stepno == self.max_steps:

@@ -18,7 +18,7 @@ class NetworkType(Enum):
     BARABASI_ALBERT = 'ba'
 
 class InteractionType(Enum):
-    DYADIC = 'dy',
+    DYADIC = 'dyn',
     HIGHER_ORDER = 'hord'
     
 class SimulationType(Enum):
