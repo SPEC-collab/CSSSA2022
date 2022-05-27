@@ -23,9 +23,9 @@ class NetworkEnsembleFactory:
             NetworkType.LATTICE_2D_TRIANGLE: [],
             NetworkType.LATTICE_2D_HEXAGON: [],
             NetworkType.COMPLETE: [],
+            NetworkType.HYPER_CUBE: [],
             NetworkType.WATTS_STROGATZ: [5, 0.8],
             NetworkType.POWER_LAW: [5, 0.6],
-            NetworkType.HYPER_CUBE: [],
             NetworkType.ERDOS_RENYI: [0.4],
             NetworkType.BARABASI_ALBERT: [5]
         }
@@ -59,11 +59,11 @@ class NetworkEnsembleFactory:
         k_half = math.isqrt(n)
         
         if nt == NetworkType.LATTICE_2D_RECTANGLE:
-            return nx.grid_2d_graph(k_half, k_half)
+            return nx.grid_2d_graph(k_half, k_half, periodic=True)
         elif nt == NetworkType.LATTICE_2D_TRIANGLE:
-            return nx.triangular_lattice_graph(k_half, k_half)
+            return nx.triangular_lattice_graph(k_half, k_half, periodic=True)
         elif nt == NetworkType.LATTICE_2D_HEXAGON:
-            return nx.hexagonal_lattice_graph(k_half, k_half)
+            return nx.hexagonal_lattice_graph(k_half, k_half, periodic=True)
         elif nt == NetworkType.COMPLETE:
             return nx.complete_graph(n)
         elif nt == NetworkType.WATTS_STROGATZ:

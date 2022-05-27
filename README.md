@@ -31,3 +31,31 @@ Database fields:
 * **agent_id:** identifier of the existing agent
 * **opinion:** 0/1 value indicating voting preference
 * **f_val:** current opinion fraction leading to vote switching
+
+## Scientific aims
+
+* Connect our interaction dynamics to real-world social processes
+
+### Current choices
+
+**Network:**
+* 2D grid (periodic)
+* Erdos-Renyi
+
+**Time steps:** 5000
+
+### Contrasts
+
+* Determine whether ABM vs matrix implementations induce magnetization differences in the same graph
+* Determine whether different choices of graphs induce magnetization differences in the same model/across models
+* Determine whether magnetization differences occur depending on dyadic/higher-order interactions for each network
+
+### Observables
+
+* Average magnetization
+* (Meta)stability
+* Time to convergence
+
+## Future work
+
+* Analysis of cluster formation during voting (connected components)

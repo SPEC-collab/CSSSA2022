@@ -19,7 +19,7 @@ class NetworkType(Enum):
 
 class InteractionType(Enum):
     DYADIC = 'dy',
-    HIGHER_ORDER = 'ho'
+    HIGHER_ORDER = 'hord'
     
 class SimulationType(Enum):
     MATRIX = 'matrix'

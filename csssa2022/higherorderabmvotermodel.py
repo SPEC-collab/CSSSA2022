@@ -46,6 +46,7 @@ class HigherOrderABMVoterModel(Model,AbstractVoterModel):
         if self.stepno == self.max_steps:
             self.running = False
         else:
+            # TODO: implement the higher-order interaction process
            self.schedule.step()
            
     def compute_f(self, i):

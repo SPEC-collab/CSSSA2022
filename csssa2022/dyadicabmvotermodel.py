@@ -17,9 +17,9 @@ class DyadicABMVoterAgent(Agent):
         
     def step(self):
         if self.compute_f() > self.__f_threshold:
-            self.opinion = 1
+            self.opinion = 1 # Majority
         else:
-            self.opinion = 0
+            self.opinion = 0 # Stay the same
     
     def compute_f(self):
         total = 0.0

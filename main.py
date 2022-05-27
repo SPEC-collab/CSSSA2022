@@ -22,7 +22,7 @@ network_opts_map = {
 
 interaction_opts_map = {
     'dy': InteractionType.DYADIC,
-    'ho': InteractionType.HIGHER_ORDER
+    'hord': InteractionType.HIGHER_ORDER
 }
 
 simulation_opts_map = {
