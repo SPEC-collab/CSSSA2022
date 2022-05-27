@@ -16,16 +16,20 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
     def __init__(self, uuid_exp, ensemble_id, interactants, initial_state, network: Graph, n, max_steps, db):
         super().__init__(uuid_exp, ensemble_id, SimulationType.MATRIX, InteractionType.DYADIC,
                          interactants, initial_state, network, n, max_steps, db)
-        
+        print(network)
         # We represent the agent store as a dictionary
         self.agent_states = {}
+        self.agent_fs = {}
         
-        # Add agents depending on their initial opinion
+        # Add agents depending on their initial opinion, start with
+        # a trivial value of f
         for i in self.initial_yes:
             self.agent_states[i] = 1
+            self.agent_fs[i] = 0
             
         for i in self.initial_no:
             self.agent_states[i] = 0
+            self.agent_fs[i] = 0
             
     def step(self):
         if self.stepno == self.max_steps:
@@ -34,8 +38,10 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
             # Compute a new map for all agents and replace the old map
             new_states = {}
             
-            for i in self.agent_states.values():
-                if self.compute_f(i) > self.__f_threshold:
+            for i in self.agent_states.keys():
+                self.agent_fs[i] = self.compute_f(i)
+                
+                if self.agent_fs[i] > self.f_threshold:
                     new_states[i] = 1
                 else:
                     new_states[i] = 0
@@ -44,7 +50,9 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
             
     def compute_f(self, i):
         total = 0.0
+        print(i)
         neighbors = list(self.network.neighbors(i))
+        print(neighbors)
         k = len(neighbors)
         
         if k == 0:
@@ -54,7 +62,11 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
                 total += self.agent_states[j]
                 
             total /= k
+            print(total)
             return total
             
     def get_opinion(self, i):
         return self.agent_states[i]
+    
+    def get_f(self, i):
+        return self.agent_fs[i]

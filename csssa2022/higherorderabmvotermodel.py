@@ -14,6 +14,7 @@ class HigherOrderABMVoterAgent(Agent):
     def __init__(self, unique_id: int, initial_opinion:int, model: Model):
         super().__init__(unique_id, model)
         self.opinion = initial_opinion
+        self.f = 0
         
     def step(self):
         '''
@@ -57,4 +58,10 @@ class HigherOrderABMVoterModel(Model,AbstractVoterModel):
         # Mesa does not have an elegant way to access one agent. We build it here.
         # Ideally, a function should exist that accesses the internal dictionary.
         filtered = [a for a in self.model.schedule.agents() if (a.unique_id == i)]
-        return filtered[0]
+        return filtered[0].opinion
+    
+    def get_f(self, i):
+        # Mesa does not have an elegant way to access one agent. We build it here.
+        # Ideally, a function should exist that accesses the internal dictionary.
+        filtered = [a for a in self.model.schedule.agents() if (a.unique_id == i)]
+        return filtered[0].f

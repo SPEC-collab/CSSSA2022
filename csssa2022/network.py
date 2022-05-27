@@ -24,9 +24,9 @@ class NetworkEnsembleFactory:
             NetworkType.LATTICE_2D_HEXAGON: [],
             NetworkType.COMPLETE: [],
             NetworkType.HYPER_CUBE: [],
-            NetworkType.WATTS_STROGATZ: [5, 0.8],
+            NetworkType.WATTS_STROGATZ: [5, 0.4],
             NetworkType.POWER_LAW: [5, 0.6],
-            NetworkType.ERDOS_RENYI: [0.4],
+            NetworkType.ERDOS_RENYI: [0.1],
             NetworkType.BARABASI_ALBERT: [5]
         }
         
@@ -77,9 +77,9 @@ class NetworkEnsembleFactory:
         elif nt == NetworkType.HYPER_CUBE:
             return nx.hypercube_graph(int(math.log2(n)))
         elif nt == NetworkType.ERDOS_RENYI:
-            return nx.erdos_renyi_graph(n, p=self.params[NetworkType.POWER_LAW][0])
+            return nx.erdos_renyi_graph(n, p=self.params[NetworkType.ERDOS_RENYI][0])
         elif nt == NetworkType.BARABASI_ALBERT:
-            return nx.barabasi_albert_graph(n, m=self.params[NetworkType.POWER_LAW][0])
+            return nx.barabasi_albert_graph(n, m=self.params[NetworkType.BARABASI_ALBERT][0])
         else:
             raise ValueError
         

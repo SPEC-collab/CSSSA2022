@@ -16,6 +16,19 @@ class HigherOrderMatrixVoterModel(AbstractVoterModel):
     def __init__(self, uuid_exp, ensemble_id, interactants, initial_state, network: Graph, n, max_steps, db):
         super().__init__(uuid_exp, ensemble_id, SimulationType.MATRIX, InteractionType.HIGHER_ORDER,
                          interactants, initial_state, network, n, max_steps, db)
+        # We represent the agent store as a dictionary
+        self.agent_states = {}
+        self.agent_fs = {}
+        
+        # Add agents depending on their initial opinion, start with
+        # a trivial value of f
+        for i in self.initial_yes:
+            self.agent_states[i] = 1
+            self.agent_fs[i] = 0
+            
+        for i in self.initial_no:
+            self.agent_states[i] = 0
+            self.agent_fs[i] = 0
         
     def step(self):
         if self.stepno == self.max_steps:
@@ -38,3 +51,6 @@ class HigherOrderMatrixVoterModel(AbstractVoterModel):
     
     def get_opinion(self, i):
         return self.agent_states[i]
+    
+    def get_f(self, i):
+        return self.agent_fs[i]

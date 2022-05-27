@@ -60,7 +60,7 @@ class Database:
     def insert_record(self, r: Record):
         self.cur.execute('insert into records values (?, ?, ?, ?, ?, ?)',
                          (
-                             r.uuid,
+                             r.uuid_exp,
                              r.ensemble_id,
                              r.step_id,
                              r.agent_id,

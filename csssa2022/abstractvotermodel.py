@@ -14,10 +14,11 @@ from csssa2022.database import Database
 
 class AbstractVoterModel(ABC):
     
-    __f_threshold = 0.5
-    
     def __init__(self, uuid_exp, ensemble_id, type, interactions, interactants,
                  initial_state, network: Graph, n, max_steps, db: Database):
+        # Constants
+        self.f_threshold = 0.5
+        
         # General elements
         self.running = True
         self.stepno = 0
@@ -58,13 +59,17 @@ class AbstractVoterModel(ABC):
     def get_opinion(self, i):
         pass
     
+    @abstractmethod
+    def get_f(self, i):
+        pass
+    
     def agent_to_record(self, i):
         return Record(self.uuid_exp,
                       self.ensemble_id,
                       self.stepno,
                       i,
                       self.get_opinion(i),
-                      self.compute_f(i))
+                      self.get_f(i))
     
     def save(self, i):
         self.db.insert_record(self.agent_to_record(i))

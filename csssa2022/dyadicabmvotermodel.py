@@ -14,9 +14,12 @@ class DyadicABMVoterAgent(Agent):
     def __init__(self, unique_id: int, initial_opinion:int, model: Model):
         super().__init__(unique_id, model)
         self.opinion = initial_opinion
+        self.f = 0
         
     def step(self):
-        if self.compute_f() > self.__f_threshold:
+        self.compute_f()
+        
+        if self.f > self.f_threshold:
             self.opinion = 1
         else:
             self.opinion = 0
@@ -27,7 +30,7 @@ class DyadicABMVoterAgent(Agent):
         k = len(neighbors)
         
         if k == 0:
-            return 0
+            self.f = 0
         else:
             # Filter agents by neighbors
             filtered = [a for a in self.model.schedule.agents() if (a.unique_id in filtered)]
@@ -36,7 +39,7 @@ class DyadicABMVoterAgent(Agent):
                 total += ag.opinion
                 
             total /= k
-            return total
+            self.f = total
         
 class DyadicABMVoterModel(Model,AbstractVoterModel):
     '''
@@ -71,4 +74,9 @@ class DyadicABMVoterModel(Model,AbstractVoterModel):
         # Mesa does not have an elegant way to access one agent. We build it here.
         # Ideally, a function should exist that accesses the internal dictionary.
         filtered = [a for a in self.model.schedule.agents() if (a.unique_id == i)]
-        return filtered[0]
+        return filtered[0].opinion
+    
+    def get_f(self, i):
+        # Similar solution
+        filtered = [a for a in self.model.schedule.agents() if (a.unique_id == i)]
+        return filtered[0].f
