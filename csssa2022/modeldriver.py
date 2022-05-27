@@ -3,23 +3,24 @@
 # This program and the accompanying materials are made available under the
 # terms of the Mozilla Public License v2.0 which accompanies this distribution,
 # and is available at https://www.mozilla.org/en-US/MPL/2.0/
+from curses.ascii import SI
 import uuid
 
 from csssa2022.database import Database
 from csssa2022.network import NetworkEnsembleFactory
-from csssa2022.selections import InteractionType, NetworkType
+from csssa2022.selections import InteractionType, NetworkType, SimulationType
 from csssa2022.dyadicmatrixvotermodel import DyadicMatrixVoterModel
-from csssa2022.higherordervotermodel import HigherOrderVoterModel
+from csssa2022.dyadicabmvotermodel import DyadicABMVoterModel
+from csssa2022.higherordermatrixvotermodel import HigherOrderMatrixVoterModel
+from csssa2022.higherorderabmvotermodel import HigherOrderABMVoterModel
 
-
-class MatrixModelDriver:
+class ModelDriver:
     '''
-    This class takes care of executing a matrix model within an ensemble. If the network does not vary, then
-    only one network object is generated
+    This class takes care of executing a model within an ensemble.
     '''
     
-    def run_model(ensemble_size, interaction: InteractionType, interactants, 
-                  initial_state, network: NetworkType, n, max_steps, filename):
+    def run_model(ensemble_size, simulation: SimulationType, interaction: InteractionType,
+                  interactants, initial_state, network: NetworkType, n, max_steps, filename):
         # Generate a unique uuid1 per experiment
         uuid_exp = uuid.uuid1()
         
@@ -35,10 +36,17 @@ class MatrixModelDriver:
             # Instantiate the right type of model
             model = None
             
-            if interaction == InteractionType.DYADIC:
-                model = DyadicMatrixVoterModel(uuid_exp, i, interactants, initial_state, net, n, max_steps, db)
+            if simulation == SimulationType.MATRIX:
+                if interaction == InteractionType.DYADIC:
+                    model = DyadicMatrixVoterModel(uuid_exp, i, interactants, initial_state, net, n, max_steps, db)
+                else:
+                    model = HigherOrderMatrixVoterModel(uuid_exp, i, interactants, initial_state, net, n, max_steps, db)
             else:
-                model = HigherOrderVoterModel(uuid_exp, i, interactants, initial_state, net, n, max_steps, db)
+                if interaction == InteractionType.DYADIC:
+                    model = DyadicABMVoterModel(uuid_exp, i, interactants, initial_state, net, n, max_steps, db)
+                else:
+                    model = HigherOrderABMVoterModel(uuid_exp, i, interactants, initial_state, net, n, max_steps, db)
+                    pass
                 
             # Run the model
             model.run()

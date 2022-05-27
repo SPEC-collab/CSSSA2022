@@ -8,7 +8,7 @@ from csssa2022.selections import InteractionType, SimulationType
 from csssa2022.abstractvotermodel import AbstractVoterModel
 
 
-class HigherOrderVoterModel(AbstractVoterModel):
+class HigherOrderMatrixVoterModel(AbstractVoterModel):
     '''
     This voter model only has dyadic interactions, uses state vector to represent agents, and
     updates all state agents simultaneously at the end of one simulation step.
