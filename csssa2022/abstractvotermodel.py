@@ -8,6 +8,7 @@ import math
 
 from networkx import Graph
 from abc import ABC, abstractmethod
+from operator import itemgetter
 from csssa2022.record import Record
 from csssa2022.database import Database
 from csssa2022.network import NetworkUtil
@@ -66,6 +67,14 @@ class AbstractVoterModel(ABC):
     @abstractmethod
     def get_f(self, i):
         pass
+    
+    def get_neighbors(self,i):
+        '''
+        In this method, we make use of the node-id translation services constructed so far
+        '''
+        node = self.n_to_node[i]
+        neighbors = self.network.neighbors(node)
+        return itemgetter(*neighbors)(self.node_to_n)
     
     def agent_to_record(self, i):
         return Record(self.uuid_exp,

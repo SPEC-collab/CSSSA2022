@@ -60,8 +60,10 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
             
     def compute_f(self, i):
         total = 0.0
-        neighbors = list(self.network.neighbors(i))
+        neighbors = self.get_neighbors(i)
         k = len(neighbors)
+        
+        print(neighbors)
         
         if k == 0:
             return 0

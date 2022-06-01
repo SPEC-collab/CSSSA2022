@@ -26,7 +26,7 @@ class DyadicABMVoterAgent(Agent):
     
     def compute_f(self):
         total = 0.0
-        neighbors = list(self.model.network.neighbors(self.unique_id))
+        neighbors = self.model.get_neighbors(self.unique_id)
         k = len(neighbors)
         
         if k == 0:
