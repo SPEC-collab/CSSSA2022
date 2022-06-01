@@ -6,6 +6,7 @@
 import uuid
 
 from csssa2022.database import Database
+from csssa2022.simulation import Simulation
 from csssa2022.network import NetworkEnsembleFactory
 from csssa2022.selections import InteractionType, NetworkType, SimulationType
 from csssa2022.dyadicmatrixvotermodel import DyadicMatrixVoterModel
@@ -30,6 +31,11 @@ class ModelDriver:
         # Create a new database or open an existing one at the corresponding filename
         db = Database(filename)
         db.connect()
+        
+        # Save the current simulation
+        sim = Simulation(uuid_exp, ensemble_size, n, simulation, interaction,
+                         interactants, initial_state, network, max_steps)
+        db.insert_simulation(sim)
                 
         # Generate an ensemble of networks
         nef = NetworkEnsembleFactory()

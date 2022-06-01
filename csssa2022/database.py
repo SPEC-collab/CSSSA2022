@@ -69,16 +69,16 @@ class Database:
                         ))
         
     def insert_simulation(self, s: Simulation):
-        self.cur.execute('insert into simulations values ()',
+        self.cur.execute('insert into simulations values (?, ?, ?, ?, ?, ?, ?, ?, ?)',
                          (
                              s.uuid_exp,
                              s.ensemble_size,
                              s.n,
-                             s.simulation_type.value,
-                             s.interaction_type.value,
+                             str(s.simulation_type.value),
+                             str(s.interaction_type.value),
                              s.interactants,
                              s.initial_state,
-                             s.network_type,
+                             str(s.network_type.value),
                              s.max_steps
                          ))
 
