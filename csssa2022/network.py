@@ -83,3 +83,21 @@ class NetworkEnsembleFactory:
         else:
             raise ValueError
         
+class NetworkUtil:
+    
+    @staticmethod
+    def make_rosetta(network: nx.Graph):
+        '''
+        This method output two maps to translate between agent ids and
+        network nodes.
+        '''
+        n_to_node = {}
+        node_to_n = {}
+        
+        nodes = network.nodes
+
+        for i, node in enumerate(nodes):
+            n_to_node[i] = node
+            node_to_n[node] = i
+            
+        return n_to_node, node_to_n

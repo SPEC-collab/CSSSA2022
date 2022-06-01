@@ -6,6 +6,7 @@
 from csssa2022.database import Database
 from csssa2022.record import Record
 from csssa2022.selections import NetworkType, InteractionType, SimulationType
+from csssa2022.network import NetworkEnsembleFactory, NetworkUtil
 from csssa2022.dyadicmatrixvotermodel import DyadicMatrixVoterModel
 from csssa2022.higherordermatrixvotermodel import HigherOrderMatrixVoterModel
 from csssa2022.dyadicabmvotermodel import DyadicABMVoterModel

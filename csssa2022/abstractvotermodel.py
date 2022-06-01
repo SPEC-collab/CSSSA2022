@@ -10,6 +10,7 @@ from networkx import Graph
 from abc import ABC, abstractmethod
 from csssa2022.record import Record
 from csssa2022.database import Database
+from csssa2022.network import NetworkUtil
 
 
 class AbstractVoterModel(ABC):
@@ -43,6 +44,9 @@ class AbstractVoterModel(ABC):
         
         # Set the database where to store elements
         self.db = db
+        
+        # Obtain the respective id to node translators
+        self.n_to_node, self.node_to_n = NetworkUtil.make_rosetta(network)
         
     def agents(self):
         return list(self.agent_list)
