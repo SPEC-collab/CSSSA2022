@@ -19,7 +19,7 @@ class DyadicABMVoterAgent(Agent):
     def step(self):
         self.compute_f()
         
-        if self.f > self.f_threshold:
+        if self.f > self.model.f_threshold:
             self.opinion = 1
         else:
             self.opinion = 0
@@ -33,7 +33,7 @@ class DyadicABMVoterAgent(Agent):
             self.f = 0
         else:
             # Filter agents by neighbors
-            filtered = [a for a in self.model.schedule.agents() if (a.unique_id in filtered)]
+            filtered = filter(lambda a: a.unique_id in neighbors, self.model.schedule.agents)
             
             for ag in filtered:
                 total += ag.opinion
@@ -82,10 +82,10 @@ class DyadicABMVoterModel(AbstractVoterModel,Model):
     def get_opinion(self, i):
         # Mesa does not have an elegant way to access one agent. We build it here.
         # Ideally, a function should exist that accesses the internal dictionary.
-        filtered = [a for a in self.model.schedule.agents() if (a.unique_id == i)]
+        filtered = list(filter(lambda a: a.unique_id == i, self.schedule.agents))
         return filtered[0].opinion
     
     def get_f(self, i):
         # Similar solution
-        filtered = [a for a in self.model.schedule.agents() if (a.unique_id == i)]
+        filtered = list(filter(lambda a: a.unique_id == i, self.schedule.agents))
         return filtered[0].f
