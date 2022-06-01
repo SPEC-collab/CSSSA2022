@@ -22,7 +22,7 @@ class ModelDriver:
     def run_model(simulation: SimulationType, interaction: InteractionType, network: NetworkType,
                   interactants, n, max_steps, ensemble_size, initial_state, filename):
         # Generate a unique uuid1 per experiment
-        uuid_exp = uuid.uuid1()
+        uuid_exp = str(uuid.uuid1())
         
         # Report
         print(f'Running: {uuid_exp} - {simulation.value}, {interaction.value}, {network.value} - S: {n} <M>: {initial_state}')
