@@ -41,13 +41,22 @@ class DyadicABMVoterAgent(Agent):
             total /= k
             self.f = total
         
-class DyadicABMVoterModel(Model,AbstractVoterModel):
+class DyadicABMVoterModel(AbstractVoterModel,Model):
     '''
     A dyadic ABM voter model
     '''
-    def __init__(self, uuid_exp, ensemble_id, interactants, initial_state, network: Graph, n, max_steps, db):
-        super(AbstractVoterModel, self).__init__(uuid_exp, ensemble_id, SimulationType.ABM, InteractionType.DYADIC,
-                         interactants, initial_state, network, n, max_steps, db)
+    def __init__(self, uuid_exp, ensemble_id, interactants, initial_state, network: Graph, n, max_steps, db, **kwargs):
+        super().__init__(uuid_exp=uuid_exp,
+                         ensemble_id=ensemble_id,
+                         simtype=SimulationType.ABM,
+                         interactions=InteractionType.DYADIC,
+                         interactants=interactants, 
+                         initial_state=initial_state,
+                         network=network,
+                         n=n,
+                         max_steps=max_steps,
+                         db=db,
+                         **kwargs)
         # Create a scheduler
         self.schedule = RandomActivation(self)
         

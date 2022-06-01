@@ -13,9 +13,20 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
     This voter model only has dyadic interactions, uses state vector to represent agents, and
     updates all state agents simultaneously at the end of one simulation step.
     '''
-    def __init__(self, uuid_exp, ensemble_id, interactants, initial_state, network: Graph, n, max_steps, db):
+    def __init__(self, uuid_exp, ensemble_id, interactants, initial_state, network: Graph, n, max_steps, db, **kwargs):
         super().__init__(uuid_exp, ensemble_id, SimulationType.MATRIX, InteractionType.DYADIC,
                          interactants, initial_state, network, n, max_steps, db)
+        super().__init__(uuid_exp=uuid_exp,
+                         ensemble_id=ensemble_id,
+                         simtype=SimulationType.MATRIX,
+                         interactions=InteractionType.DYADIC,
+                         interactants=interactants, 
+                         initial_state=initial_state,
+                         network=network,
+                         n=n,
+                         max_steps=max_steps,
+                         db=db,
+                         **kwargs)
         # We represent the agent store as a dictionary
         self.agent_states = {}
         self.agent_fs = {}

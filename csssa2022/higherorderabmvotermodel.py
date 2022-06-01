@@ -24,13 +24,22 @@ class HigherOrderABMVoterAgent(Agent):
         pass
     
         
-class HigherOrderABMVoterModel(Model,AbstractVoterModel):
+class HigherOrderABMVoterModel(AbstractVoterModel,Model):
     '''
     A higher-order ABM voter model
     '''
-    def __init__(self, uuid_exp, ensemble_id, interactants, initial_state, network: Graph, n, max_steps, db):
-        super(AbstractVoterModel, self).__init__(uuid_exp, ensemble_id, SimulationType.ABM, InteractionType.HIGHER_ORDER,
-                         interactants, initial_state, network, n, max_steps, db)
+    def __init__(self, uuid_exp, ensemble_id, interactants, initial_state, network: Graph, n, max_steps, db, **kwargs):
+        super().__init__(uuid_exp=uuid_exp,
+                         ensemble_id=ensemble_id,
+                         simtype=SimulationType.ABM,
+                         interactions=InteractionType.HIGHER_ORDER,
+                         interactants=interactants,
+                         initial_state=initial_state,
+                         network=network,
+                         n=n,
+                         max_steps=max_steps,
+                         db=db,
+                         **kwargs)
         # Create a scheduler
         self.schedule = RandomActivation(self)
         

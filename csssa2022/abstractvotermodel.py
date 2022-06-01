@@ -14,8 +14,8 @@ from csssa2022.database import Database
 
 class AbstractVoterModel(ABC):
     
-    def __init__(self, uuid_exp, ensemble_id, type, interactions, interactants,
-                 initial_state, network: Graph, n, max_steps, db: Database):
+    def __init__(self, uuid_exp, ensemble_id, simtype, interactions, interactants,
+                 initial_state, network: Graph, n, max_steps, db: Database, **kwargs):
         # Constants
         self.f_threshold = 0.5
         
@@ -28,7 +28,7 @@ class AbstractVoterModel(ABC):
         self.uuid_exp = uuid_exp
         
         # Voter specific attributes
-        self.type = type
+        self.simtype = simtype
         self.interactions = interactions
         self.interactants = interactants
         self.initial_state = initial_state
