@@ -16,7 +16,6 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
     def __init__(self, uuid_exp, ensemble_id, interactants, initial_state, network: Graph, n, max_steps, db):
         super().__init__(uuid_exp, ensemble_id, SimulationType.MATRIX, InteractionType.DYADIC,
                          interactants, initial_state, network, n, max_steps, db)
-        print(network)
         # We represent the agent store as a dictionary
         self.agent_states = {}
         self.agent_fs = {}
@@ -50,9 +49,7 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
             
     def compute_f(self, i):
         total = 0.0
-        print(i)
         neighbors = list(self.network.neighbors(i))
-        print(neighbors)
         k = len(neighbors)
         
         if k == 0:
@@ -62,7 +59,6 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
                 total += self.agent_states[j]
                 
             total /= k
-            print(total)
             return total
             
     def get_opinion(self, i):
