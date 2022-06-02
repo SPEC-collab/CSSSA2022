@@ -80,9 +80,11 @@ class DyadicABMVoterModel(AbstractVoterModel,Model):
         pass
     
     def get_opinion(self, i):
-        filtered = list(filter(lambda a: a.unique_id == i, self.schedule.agents))
-        return filtered[0].opinion
+        return self.get_agent(i).opinion
     
     def get_f(self, i):
+        return self.get_agent(i).f
+    
+    def get_agent(self, i):
         filtered = list(filter(lambda a: a.unique_id == i, self.schedule.agents))
-        return filtered[0].f
+        return filtered[0]
