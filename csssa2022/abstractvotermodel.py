@@ -74,7 +74,7 @@ class AbstractVoterModel(ABC):
         '''
         node = self.n_to_node[i]
         neighbors = self.network.neighbors(node)
-        return itemgetter(*neighbors)(self.node_to_n)
+        return list(itemgetter(*neighbors)(self.node_to_n))
     
     def agent_to_record(self, i):
         return Record(self.uuid_exp,

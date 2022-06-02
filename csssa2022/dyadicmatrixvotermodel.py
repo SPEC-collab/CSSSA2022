@@ -63,8 +63,6 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
         neighbors = self.get_neighbors(i)
         k = len(neighbors)
         
-        print(neighbors)
-        
         if k == 0:
             return 0
         else:
