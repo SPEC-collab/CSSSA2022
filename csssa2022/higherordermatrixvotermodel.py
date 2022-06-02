@@ -90,6 +90,7 @@ class HigherOrderMatrixVoterModel(AbstractVoterModel):
         # Take a subset of interactants when possible
         if k > interactants:
             sample = random.sample(partition, interactants)
+            k = interactants
         else:
             sample = partition
         
