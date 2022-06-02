@@ -64,13 +64,9 @@ class HigherOrderABMVoterModel(AbstractVoterModel,Model):
         pass
     
     def get_opinion(self, i):
-        # Mesa does not have an elegant way to access one agent. We build it here.
-        # Ideally, a function should exist that accesses the internal dictionary.
         filtered = list(filter(lambda a: a.unique_id == i, self.schedule.agents))
         return filtered[0].opinion
     
     def get_f(self, i):
-        # Mesa does not have an elegant way to access one agent. We build it here.
-        # Ideally, a function should exist that accesses the internal dictionary.
         filtered = list(filter(lambda a: a.unique_id == i, self.schedule.agents))
         return filtered[0].f
