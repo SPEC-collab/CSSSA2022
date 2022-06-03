@@ -3,6 +3,8 @@
 # This program and the accompanying materials are made available under the
 # terms of the Mozilla Public License v2.0 which accompanies this distribution,
 # and is available at https://www.mozilla.org/en-US/MPL/2.0/
+import random
+
 from networkx import Graph
 from csssa2022.selections import InteractionType, SimulationType
 from csssa2022.abstractvotermodel import AbstractVoterModel
@@ -14,8 +16,6 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
     updates all state agents simultaneously at the end of one simulation step.
     '''
     def __init__(self, uuid_exp, ensemble_id, interactants, initial_state, network: Graph, n, max_steps, db, **kwargs):
-        super().__init__(uuid_exp, ensemble_id, SimulationType.MATRIX, InteractionType.DYADIC,
-                         interactants, initial_state, network, n, max_steps, db)
         super().__init__(uuid_exp=uuid_exp,
                          ensemble_id=ensemble_id,
                          simtype=SimulationType.MATRIX,
@@ -48,7 +48,7 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
             # Compute a new map for all agents and replace the old map
             new_states = {}
             
-            for i in self.agent_states.keys():
+            for i in random.shuffle(self.agent_states.keys()):
                 self.agent_fs[i] = self.compute_f(i)
                 
                 if self.agent_fs[i] > self.f_threshold:
