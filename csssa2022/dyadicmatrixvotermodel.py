@@ -48,7 +48,10 @@ class DyadicMatrixVoterModel(AbstractVoterModel):
             # Compute a new map for all agents and replace the old map
             new_states = {}
             
-            for i in random.shuffle(self.agent_states.keys()):
+            # Shuffle the agents list in place
+            random.shuffle(self.agent_list)
+            
+            for i in self.agent_list:
                 self.agent_fs[i] = self.compute_f(i)
                 
                 if self.agent_fs[i] > self.f_threshold:

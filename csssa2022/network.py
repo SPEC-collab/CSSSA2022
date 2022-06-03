@@ -26,7 +26,7 @@ class NetworkEnsembleFactory:
             NetworkType.HYPER_CUBE: [],
             NetworkType.WATTS_STROGATZ: [5, 0.4],
             NetworkType.POWER_LAW: [5, 0.6],
-            NetworkType.ERDOS_RENYI: [0.1],
+            NetworkType.ERDOS_RENYI: [0.4],
             NetworkType.BARABASI_ALBERT: [5]
         }
         
