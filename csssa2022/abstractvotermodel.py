@@ -9,8 +9,8 @@ import math
 from networkx import Graph
 from abc import ABC, abstractmethod
 from operator import itemgetter
+from collections import deque
 
-from numpy import average
 from csssa2022.record import Record
 from csssa2022.summary import Summary
 from csssa2022.database import Database
@@ -49,6 +49,13 @@ class AbstractVoterModel(ABC):
         # Set the database where to store elements
         self.db = db
         
+        # Store the last summary to determine convergence
+        self.last_summary = None
+        
+        # We test convergence when all elements of the list are equal for 5 steps
+        self.convergence_queue = deque([], maxlen=5)
+        self.converged = False
+              
         # Obtain the respective id to node translators
         self.n_to_node, self.node_to_n = NetworkUtil.make_rosetta(network)
         
@@ -92,12 +99,23 @@ class AbstractVoterModel(ABC):
                       self.get_f(i))
     
     def step_to_summary(self):
-        return Summary(self.uuid_exp,
-                      self.ensemble_id,
-                      self.stepno,
-                      self.count_yes(),
-                      self.count_no(),
-                      self.average_f())
+        if self.converged:
+            self.last_summary.stepno = self.stepno
+        else:
+            # Compute the average_f value
+            average_f = self.average_f()
+            
+            self.last_summary = Summary(self.uuid_exp,
+                        self.ensemble_id,
+                        self.stepno,
+                        self.count_yes(),
+                        self.count_no(),
+                        average_f,
+                        self.stepno)
+            
+            self.convergence_queue.append(average_f)
+            
+        return self.last_summary
     
     def count_yes(self):
         return self.count_opinion(1)
@@ -130,15 +148,23 @@ class AbstractVoterModel(ABC):
         Save all takes all agents and, depending on the implementation of agent_to_record,
         takes care of saving one full iteration. Commit occurs at the end of the simulation
         '''
-        #for i in self.agent_list:
-        #    self.save(i)
-            
         self.db.insert_summary(self.step_to_summary())
+
+    def test_convergence(self):
+        '''
+        Test convergence and avoid extra computation for the rest of simulation time
+        '''
+        self.converged = (len(set(self.convergence_queue)) == 1) and (len(self.convergence_queue) == 5)
 
     def run(self):
         while self.running:
-            # Perform the step
-            self.step()
+            # Perform the step if not converged
+            if not(self.converged):
+                self.step()
+                self.test_convergence()
+            else:
+                if self.stepno == self.max_steps:
+                    self.running = False
             
             # Save all agent states
             self.save_all()

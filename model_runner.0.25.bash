@@ -2,8 +2,8 @@
 
 INTERACTANTS=3
 N=1024
-MAX_STEPS=100
-ENSEMBLE_SIZE=50
+MAX_STEPS=500
+ENSEMBLE_SIZE=100
 INITIAL_MAG=0.25
 DB_NAME="csssa2022.db"
 
@@ -28,4 +28,3 @@ time python main.py abm      hord    l2dr    $INTERACTANTS $N $MAX_STEPS $ENSEMB
 time python main.py abm      hord    hc      $INTERACTANTS $N $MAX_STEPS $ENSEMBLE_SIZE $INITIAL_MAG $DB_NAME
 time python main.py abm      hord    pl      $INTERACTANTS $N $MAX_STEPS $ENSEMBLE_SIZE $INITIAL_MAG $DB_NAME
 time python main.py abm      hord    er      $INTERACTANTS $N $MAX_STEPS $ENSEMBLE_SIZE $INITIAL_MAG $DB_NAME
-

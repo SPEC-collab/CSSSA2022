@@ -17,3 +17,4 @@ class Summary:
     total_yes: int
     total_no: int
     avg_f: float
+    conv_step: int

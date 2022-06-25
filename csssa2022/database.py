@@ -3,7 +3,6 @@
 # This program and the accompanying materials are made available under the
 # terms of the Mozilla Public License v2.0 which accompanies this distribution,
 # and is available at https://www.mozilla.org/en-US/MPL/2.0/
-from http.cookies import SimpleCookie
 import sqlite3
 from pathlib import Path
 from csssa2022.record import Record
@@ -51,7 +50,8 @@ class Database:
         step_id integer,
         total_yes integer,
         total_no integer,
-        avg_f real
+        avg_f real,
+        conv_step integer
     )
     '''
      
@@ -83,14 +83,15 @@ class Database:
                         ))
         
     def insert_summary(self, s: Summary):
-        self.cur.execute('insert into summaries values (?, ?, ?, ?, ?, ?)',
+        self.cur.execute('insert into summaries values (?, ?, ?, ?, ?, ?, ?)',
                          (
                              s.uuid_exp,
                              s.ensemble_id,
                              s.step_id,
                              s.total_yes,
                              s.total_no,
-                             s.avg_f
+                             s.avg_f,
+                             s.conv_step
                         ))
         
     def insert_simulation(self, s: Simulation):
