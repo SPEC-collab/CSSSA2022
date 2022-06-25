@@ -8,6 +8,7 @@ import sqlite3
 from pathlib import Path
 from csssa2022.record import Record
 from csssa2022.simulation import Simulation
+from csssa2022.summary import Summary
 
 
 class Database:
@@ -41,6 +42,18 @@ class Database:
         f_val real
     )
     '''
+    
+    __summaries_sql = '''
+    CREATE TABLE summaries
+    (
+        uuid_exp text,
+        ensemble_id integer,
+        step_id integer,
+        total_yes integer,
+        total_no integer,
+        avg_f real
+    )
+    '''
      
     def __init__(self, filename):
         self.filename = filename
@@ -55,6 +68,7 @@ class Database:
         if not(self.exists):
             self.cur.execute(self.__simulations_sql)
             self.cur.execute(self.__records_sql)
+            self.cur.execute(self.__summaries_sql)
             self.con.commit()
     
     def insert_record(self, r: Record):
@@ -66,6 +80,17 @@ class Database:
                              r.agent_id,
                              r.opinion,
                              r.f_val
+                        ))
+        
+    def insert_summary(self, s: Summary):
+        self.cur.execute('insert into summaries values (?, ?, ?, ?, ?, ?)',
+                         (
+                             s.uuid_exp,
+                             s.ensemble_id,
+                             s.step_id,
+                             s.total_yes,
+                             s.total_no,
+                             s.avg_f
                         ))
         
     def insert_simulation(self, s: Simulation):

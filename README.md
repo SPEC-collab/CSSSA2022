@@ -38,10 +38,10 @@ Database fields:
 
 ### Current choices
 
-* **Network:** 2D grid (periodic)
+* **Network:** 2D grid (periodic) or power law cluster network
 * **Time steps:** 5000
 * **Interactants:** 3
-* **Number of agents:** 256
+* **Number of agents:** 1024
 * **Ensemble size:** 50
 
 ### Contrasts

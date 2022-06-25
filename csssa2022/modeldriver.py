@@ -36,6 +36,8 @@ class ModelDriver:
         sim = Simulation(uuid_exp, ensemble_size, n, simulation, interaction,
                          interactants, initial_state, network, max_steps)
         db.insert_simulation(sim)
+        
+        # Save the initial value
                 
         # Generate an ensemble of networks
         nef = NetworkEnsembleFactory()
@@ -60,6 +62,9 @@ class ModelDriver:
                 else:
                     model = HigherOrderABMVoterModel(uuid_exp, i, interactants, initial_state, net, n, max_steps, db)
                     pass
+                
+            # Save the initial values
+            model.save_all()
                 
             # Run the model
             model.run()

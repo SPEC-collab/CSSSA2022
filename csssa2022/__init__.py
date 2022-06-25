@@ -5,6 +5,7 @@
 # and is available at https://www.mozilla.org/en-US/MPL/2.0/
 from csssa2022.database import Database
 from csssa2022.record import Record
+from csssa2022.summary import Summary
 from csssa2022.selections import NetworkType, InteractionType, SimulationType
 from csssa2022.network import NetworkEnsembleFactory, NetworkUtil
 from csssa2022.dyadicmatrixvotermodel import DyadicMatrixVoterModel

@@ -9,7 +9,10 @@ import math
 from networkx import Graph
 from abc import ABC, abstractmethod
 from operator import itemgetter
+
+from numpy import average
 from csssa2022.record import Record
+from csssa2022.summary import Summary
 from csssa2022.database import Database
 from csssa2022.network import NetworkUtil
 
@@ -38,9 +41,9 @@ class AbstractVoterModel(ABC):
         self.n = n
         self.ensemble_id = ensemble_id
         
-        # Create agents, separate them into initial states of yes/no
+        # Create agents, separate them into initial states of yes/no        
         self.agent_list = list(range(0, self.n))
-        self.initial_yes = random.sample(self.agent_list, math.ceil(n*self.initial_state))
+        self.initial_yes = random.sample(self.agent_list, math.ceil(self.n*self.initial_state))    
         self.initial_no = list(set(self.agent_list) - set(self.initial_yes))
         
         # Set the database where to store elements
@@ -88,6 +91,37 @@ class AbstractVoterModel(ABC):
                       self.get_opinion(i),
                       self.get_f(i))
     
+    def step_to_summary(self):
+        return Summary(self.uuid_exp,
+                      self.ensemble_id,
+                      self.stepno,
+                      self.count_yes(),
+                      self.count_no(),
+                      self.average_f())
+    
+    def count_yes(self):
+        return self.count_opinion(1)
+        
+    def count_no(self):
+        return self.count_opinion(0)
+    
+    def count_opinion(self, opinion):
+        total = 0
+        
+        for i in self.agent_list:
+            if self.get_opinion(i) == opinion:
+                total += 1
+                
+        return total
+    
+    def average_f(self):
+        total = 0
+        
+        for i in self.agent_list:
+            total += self.get_f(i)
+                
+        return total/self.n
+    
     def save(self, i):
         self.db.insert_record(self.agent_to_record(i))
     
@@ -96,8 +130,10 @@ class AbstractVoterModel(ABC):
         Save all takes all agents and, depending on the implementation of agent_to_record,
         takes care of saving one full iteration. Commit occurs at the end of the simulation
         '''
-        for i in self.agent_list:
-            self.save(i)
+        #for i in self.agent_list:
+        #    self.save(i)
+            
+        self.db.insert_summary(self.step_to_summary())
 
     def run(self):
         while self.running:
