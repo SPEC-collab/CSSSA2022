@@ -4,8 +4,9 @@ INTERACTANTS=3
 N=1024
 MAX_STEPS=100
 ENSEMBLE_SIZE=100
-INITIAL_MAG=0.25
+INITIAL_MAG=0.95
 DB_NAME="csssa2022.db"
+LOG_FILE="log.txt"
 
 # Run all combinations of models with a single database
 
