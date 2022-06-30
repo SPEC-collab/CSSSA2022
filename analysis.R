@@ -65,8 +65,11 @@ df_avg_opinions <- df_opinion_convergence %>%
 
 initial_states <- unique(df.sims$initial_state)
 network_types <- unique(df.sims$network_type)
+mxis <- unique(df_means$mxi)
 
 # Average magnetization
+
+## method + interaction based
 for (ist in initial_states) {
     df.local <- subset(df_means, initial_state == ist)
     
@@ -97,7 +100,46 @@ for (nt in network_types) {
   ggsave(sprintf("avg_f_%s_net.png", nt))
 }
 
+
+## Feature based
+
+for (m in mxis) {
+  df.local <- subset(df_means, mxi == m)
+  df.local$initial_state <- as.factor(df.local$initial_state)
+  
+  ggplot(df.local, aes(x=step_id, color=initial_state)) + 
+    geom_line(aes(y=2*avg_f - 1)) + 
+    facet_grid(vars(network_type)) +
+    ggtitle(sprintf("Average magnetization, %s", m)) +
+    xlab("Step") +
+    ylab(expression(paste("<", M, ">"))) +
+    ylim(-1.0, 1.0) +
+    theme_classic() + 
+    theme(plot.title = element_text(hjust = 0.5))
+  ggsave(sprintf("avg_f_%s_mxi_ist.png", m))
+}
+
+for (m in mxis) {
+  df.local <- subset(df_means, mxi == m)
+  df.local$initial_state <- as.factor(df.local$initial_state)
+  
+  ggplot(df.local, aes(x=step_id, color=network_type)) + 
+    geom_line(aes(y=2*avg_f - 1)) + 
+    facet_grid(vars(initial_state)) +
+    ggtitle(sprintf("Average magnetization, %s", m)) +
+    xlab("Step") +
+    ylab(expression(paste("<", M, ">"))) +
+    ylim(-1.0, 1.0) +
+    theme_classic() + 
+    theme(plot.title = element_text(hjust = 0.5))
+  ggsave(sprintf("avg_f_%s_mxi_nt.png", m))
+}
+
+
+
 # Convergence
+
+## method + interaction based
 for (ist in initial_states) {
   df.local <- subset(df_convergence, initial_state == ist)
   
@@ -124,6 +166,98 @@ for (nt in network_types) {
     theme_classic() + 
     theme(plot.title = element_text(hjust = 0.5))
   ggsave(sprintf("conv_t_%s_net.png", nt))
+}
+
+# Violin plot for 0.5
+df.local <- subset(df_opinion_convergence, initial_state == 0.25)
+df.local$initial_state <- as.factor(df.local$initial_state)
+
+ggplot(df.local, aes(x=mxi)) + 
+  geom_violin(aes(y=2*avg_f - 1)) +
+  facet_grid(vars(network_type)) +
+  ggtitle(sprintf("Final state distribution - initial: %s", 0.25)) +
+  xlab("Implementation") +
+  ylab(expression(paste("<", M, ">"))) +
+  ylim(-1.0, 1.0) +
+  theme_classic() + 
+  theme(plot.title = element_text(hjust = 0.5))
+ggsave(sprintf("final_state_dist_ist_%.2f.png", 0.25))
+
+df.local <- subset(df_opinion_convergence, initial_state == 0.5)
+df.local$initial_state <- as.factor(df.local$initial_state)
+
+ggplot(df.local, aes(x=mxi)) + 
+  geom_violin(aes(y=2*avg_f - 1)) +
+  facet_grid(vars(network_type)) +
+  ggtitle(sprintf("Final state distribution - initial: %s", 0.5)) +
+  xlab("Implementation") +
+  ylab(expression(paste("<", M, ">"))) +
+  ylim(-1.0, 1.0) +
+  theme_classic() + 
+  theme(plot.title = element_text(hjust = 0.5))
+ggsave(sprintf("final_state_dist_ist_%.2f.png", 0.5))
+
+df.local <- subset(df_opinion_convergence, initial_state == 0.75)
+df.local$initial_state <- as.factor(df.local$initial_state)
+
+ggplot(df.local, aes(x=mxi)) + 
+  geom_violin(aes(y=2*avg_f - 1)) +
+  facet_grid(vars(network_type)) +
+  ggtitle(sprintf("Final state distribution - initial: %s", 0.75)) +
+  xlab("Implementation") +
+  ylab(expression(paste("<", M, ">"))) +
+  ylim(-1.0, 1.0) +
+  theme_classic() + 
+  theme(plot.title = element_text(hjust = 0.5))
+ggsave(sprintf("final_state_dist_ist_%.2f.png", 0.75))
+
+for (nt in network_types) {
+  df.local <- subset(df_opinion_convergence, network_type == nt)
+  df.local$initial_state <- as.factor(df.local$initial_state)
+  
+  ggplot(df.local, aes(x=initial_state)) + 
+    geom_violin(aes(y=2*avg_f - 1)) +
+    facet_grid(vars(mxi)) +
+    ggtitle(sprintf("Final state distribution - network: %s", nt)) +
+    xlab("Initial state") +
+    ylab(expression(paste("<", M, ">"))) +
+    ylim(-1.0, 1.0) +
+    theme_classic() + 
+    theme(plot.title = element_text(hjust = 0.5))
+  ggsave(sprintf("final_state_dist_nt_%s.png", nt))
+}
+
+for (m in mxis) {
+  df.local <- subset(df_opinion_convergence, mxi == m)
+  df.local$initial_state <- as.factor(df.local$initial_state)
+  
+  ggplot(df.local, aes(x=initial_state)) + 
+    geom_violin(aes(y=2*avg_f - 1)) +
+    facet_grid(vars(network_type)) +
+    ggtitle(sprintf("Final state distribution - implementation: %s", m)) +
+    xlab("Initial state") +
+    ylab(expression(paste("<", M, ">"))) +
+    ylim(-1.0, 1.0) +
+    theme_classic() + 
+    theme(plot.title = element_text(hjust = 0.5))
+  ggsave(sprintf("final_state_dist_mxi_%s.png", m))
+}
+
+
+for (m in mxis) {
+  df.local <- subset(df_opinion_convergence, mxi == m)
+  df.local$initial_state <- as.factor(df.local$initial_state)
+  
+  ggplot(df.local, aes(x=initial_state)) + 
+    geom_violin(aes(y=2*avg_f - 1)) +
+    facet_grid(vars(network_type)) +
+    ggtitle(sprintf("Final state distribution - implementation: %s", m)) +
+    xlab("Step") +
+    ylab(expression(paste("<", M, ">"))) +
+    ylim(-1.0, 1.0) +
+    theme_classic() + 
+    theme(plot.title = element_text(hjust = 0.5))
+  ggsave(sprintf("final_state_dist_mxi_%s.png", m))
 }
 
 # Interesting individual ensembles
